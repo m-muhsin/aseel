@@ -1,5 +1,6 @@
 .site-content-contain {
-  background-color: transparent !important; }
+  background-color: transparent !important;
+  margin-top: 60px; }
 
 .site-content-contain #content, .navigation-top {
   background-color: #fff;
@@ -8,9 +9,6 @@
 
 footer#colophon {
   background-color: #fff; }
-
-.site-content-contain {
-  margin-top: 60px; }
 
 .twentyseventeen-front-page.has-header-image .custom-header-media,
 .twentyseventeen-front-page.has-header-video .custom-header-media,

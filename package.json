@@ -23,6 +23,7 @@
     "url": "https://github.com/m-muhsin/aseel/issues"
   },
   "dependencies": {
+    "bootstrap-sass": "^3.3.7",
     "react": "^15.5.4",
     "react-dom": "^15.5.4"
   },

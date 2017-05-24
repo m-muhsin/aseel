@@ -21,8 +21,10 @@ function twentyseventeen_child_scripts() {
 
 	wp_enqueue_script( 'scrollmagic', 'https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/ScrollMagic.min.js' , array(), '1.0', false );
 	wp_enqueue_script( 'scrollmagic-indicators', 'https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/debug.addIndicators.min.js' , array(), '1.0', false );
-
-	wp_enqueue_script( 'aseel-script', get_stylesheet_directory_uri() . '/dist/app.js' , array(), '1.0', true );
+	
+	if(is_home()) {
+		wp_enqueue_script( 'aseel-script', get_stylesheet_directory_uri() . '/dist/app.js' , array(), '1.0', true );
+	}
 	
 }
 add_action( 'wp_enqueue_scripts', 'twentyseventeen_child_scripts' );
