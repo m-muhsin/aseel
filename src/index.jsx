@@ -4,6 +4,8 @@ var LoadingIcon = require('./Loading_icon.gif');
 
 // Load the CSS
 require('./style.scss');
+require('bootstrap-sass/assets/stylesheets/_bootstrap.scss');
+require('bootstrap-sass/assets/javascripts/bootstrap.js');
 
 class Posts extends React.Component {
     constructor(props) {
