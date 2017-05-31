@@ -7,6 +7,10 @@
   width: 75%;
   margin: 0 auto; }
 
+@media screen and (min-width: 48em) {
+  .site-content {
+    padding: 2.5em 0 0; } }
+
 footer#colophon {
   background-color: #fff; }
 
@@ -14,7 +18,7 @@ footer#colophon {
 .twentyseventeen-front-page.has-header-video .custom-header-media,
 .home.blog.has-header-image .custom-header-media,
 .home.blog.has-header-video .custom-header-media {
-  height: 40vh !important; }
+  height: 25vh !important; }
 
 #page {
   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&0+0,0.3+75 */

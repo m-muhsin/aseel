@@ -9,9 +9,6 @@
  */
 function twentyseventeen_child_scripts() {
 
-	// Registered field groups will not appear in the list of editable field groups.
-	require_once get_stylesheet_directory() . '/acf-fields.php';	
-
 	wp_enqueue_style( 'parent-style', get_template_directory_uri() . '/style.css' );
 
 	// Theme stylesheet.
@@ -25,7 +22,7 @@ function twentyseventeen_child_scripts() {
 	wp_enqueue_script( 'scrollmagic', 'https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/ScrollMagic.min.js' , array(), '1.0', false );
 	wp_enqueue_script( 'scrollmagic-indicators', 'https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/debug.addIndicators.min.js' , array(), '1.0', false );
 	
-	if(is_home()) {
+	if(is_front_page()) {
 		wp_enqueue_script( 'aseel-script', get_stylesheet_directory_uri() . '/dist/app.js' , array(), '1.0', true );
 		wp_enqueue_script( 'scripts', get_stylesheet_directory_uri() . '/dist/script.js', array( 'jquery' ), false, true );		
 		wp_localize_script( 'script', 'WP_API_Settings', array( 'root' => esc_url_raw( rest_url() ), 'nonce' => wp_create_nonce( 'wp_rest' ) ) );
@@ -43,3 +40,5 @@ function ss_excerpt_more( $more ) {
     return ' ...';
 }
 add_filter( 'excerpt_more', 'ss_excerpt_more' );
+
+include_once('acf-fields.php' );
