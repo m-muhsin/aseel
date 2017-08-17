@@ -7,30 +7,48 @@
  * Learn more: https://codex.wordpress.org/Template_Hierarchy
  *
  * @package WordPress
- * @subpackage Twenty_Seventeen
+ * @subpackage Aseel
  * @since 1.0
  * @version 1.0
  */
 
 get_header(); ?>
-    <div class="wrap">
 
-		<div class="row">
-			<?php while ( have_posts() ) : the_post(); ?>
+<div id="primary" class="content-area">
+	<main id="main" class="site-main" role="main">
 
-				<div class="col-lg-12">
-					<h1><?php echo get_field('title'); ?></h1>
-				</div>
-				<div class="col-sm-6">	           	
-					<?php echo get_field('text_1'); ?>
-				</div>
-				<div class="col-sm-6">	           	
-					<?php echo get_field('text_2'); ?>
-				</div>
-			<?php endwhile; // end of the loop. ?>
-        </div>
-    </div>
+		<?php // Show the selected frontpage content.
+		if ( have_posts() ) :
+			while ( have_posts() ) : the_post();
+				get_template_part( 'template-parts/page/content', 'front-page' );
+			endwhile;
+		else : // I'm not sure it's possible to have no posts when this page is shown, but WTH.
+			get_template_part( 'template-parts/post/content', 'none' );
+		endif; ?>
 
-<div class="wrap" id="app-container">
+		<?php
+		// Get each of our panels and show the post data.
+		if ( 0 !== aseel_panel_count() || is_customize_preview() ) : // If we have pages to show.
+
+			/**
+			 * Filter number of front page sections in Aseel.
+			 *
+			 * @since Aseel 1.0
+			 *
+			 * @param int $num_sections Number of front page sections.
+			 */
+			$num_sections = apply_filters( 'aseel_front_page_sections', 4 );
+			global $aseelcounter;
+
+			// Create a setting and control for each of the sections available in the theme.
+			for ( $i = 1; $i < ( 1 + $num_sections ); $i++ ) {
+				$aseelcounter = $i;
+				aseel_front_page_section( null, $i );
+			}
+
+	endif; // The if ( 0 !== aseel_panel_count() ) ends here. ?>
+
+	</main><!-- #main -->
+</div><!-- #primary -->
 
 <?php get_footer();
