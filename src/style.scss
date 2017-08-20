@@ -59,12 +59,3 @@ footer#colophon {
     transform: translateY(0);
 }
 
-#primary {
-    opacity: 0;
-    transform: translateY(50px);
-    transition: all 0.5s ease-out;
-}
-#primary.active {
-    opacity: 1;
-    transform: translateY(0);
-}

@@ -9573,10 +9573,11 @@ var Posts = function (_React$Component) {
 
         var _this = _possibleConstructorReturn(this, (Posts.__proto__ || Object.getPrototypeOf(Posts)).call(this, props));
 
-        _this.handleButtonClick = _this.handleButtonClick.bind(_this);
+        _this.getMorePosts = _this.getMorePosts.bind(_this);
         _this.state = {
             posts: {},
-            page: 0
+            page: 0,
+            getPosts: true
         };
         return _this;
     }
@@ -9585,44 +9586,88 @@ var Posts = function (_React$Component) {
         key: 'componentDidMount',
         value: function componentDidMount() {
             var that = this;
+            window.onbeforeunload = function () {
+                window.scrollTo(0, 0);
+            };
 
             // init controller
             var controller = new ScrollMagic.Controller();
 
             // build scene
             var scene = new ScrollMagic.Scene({ triggerElement: "#posts-here", triggerHook: "onEnter" }).addTo(controller).on("enter", function (e) {
-                that.handleButtonClick();
+                if (that.state.getPosts) {
+                    that.getMorePosts();
+                }
             });
         }
     }, {
-        key: 'handleButtonClick',
-        value: function handleButtonClick() {
+        key: 'getMorePosts',
+        value: function getMorePosts() {
+            var that = this;
+            var totalPages;
             // adding a loader
             jQuery("#loader").addClass("active");
             this.setState({ page: this.state.page + 1 });
-            jQuery.getJSON("http://localhost/mtwoblog/wp-json/wp/v2/posts/?page=" + this.state.page, function (result) {
 
-                jQuery.each(result, function (i, field) {
-                    jQuery(".posts-container").append("<article class='post-excerpt'><a href='" + field.link + "'><h2>" + field.title.rendered + "</h2></a><p>" + field.excerpt.rendered + "</p></article>");
-                });
-                if (result[0] == null) {
-                    jQuery("#loader").remove();
+            fetch("http://localhost/aseel/wp-json/wp/v2/posts/?page=" + this.state.page).then(function (response) {
+                var _iteratorNormalCompletion = true;
+                var _didIteratorError = false;
+                var _iteratorError = undefined;
+
+                try {
+                    for (var _iterator = response.headers.entries()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                        var pair = _step.value;
+
+                        if (pair[0] == 'x-wp-totalpages') {
+                            totalPages = pair[1];
+                        }
+                        if (that.state.page == totalPages) {
+                            that.state.getPosts = false;
+                        }
+                    }
+                } catch (err) {
+                    _didIteratorError = true;
+                    _iteratorError = err;
+                } finally {
+                    try {
+                        if (!_iteratorNormalCompletion && _iterator.return) {
+                            _iterator.return();
+                        }
+                    } finally {
+                        if (_didIteratorError) {
+                            throw _iteratorError;
+                        }
+                    }
                 }
-                // removing loader
-                jQuery("#loader").removeClass("active");
 
-                var controller2 = new ScrollMagic.Controller();
-                // loop through each .posts-container .post-excerpt element
-                jQuery('.posts-container .post-excerpt').each(function () {
+                if (!response.ok) {
+                    throw Error(response.statusText);
+                }
+                return response.json();
+            }).then(function (results) {
+                jQuery.each(results, function (i, field) {
+                    jQuery(".posts-container").append("<article class='post-excerpt'><a href='" + field.link + "'><h2>" + field.title.rendered + "</h2></a><p>" + field.excerpt.rendered + "</p></article>");
+                    if (results[0] == null) {
+                        jQuery("#loader").remove();
+                    }
+                    // removing loader
+                    jQuery("#loader").removeClass("active");
+                    var controller2 = new ScrollMagic.Controller();
+                    // loop through each .posts-container .post-excerpt element
+                    jQuery('.posts-container .post-excerpt').each(function () {
 
-                    // build a scene
-                    var ourScene2 = new ScrollMagic.Scene({
-                        triggerElement: this.children[0],
-                        reverse: false,
-                        triggerHook: 1
-                    }).setClassToggle(this, 'fade-in') // add class to project01
-                    .addTo(controller2);
+                        // build a scene
+                        var ourScene2 = new ScrollMagic.Scene({
+                            triggerElement: this.children[0],
+                            reverse: false,
+                            triggerHook: 1
+                        }).setClassToggle(this, 'fade-in') // add class to project01
+                        .addTo(controller2);
+                    });
                 });
+            }).catch(function (error) {
+                console.log('There has been a problem with your fetch operation: ' + error.message);
+                jQuery("#loader").remove();
             });
         }
     }, {

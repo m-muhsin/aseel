@@ -14,8 +14,8 @@
 footer#colophon {
   background-color: #fff; }
 
-.twentyseventeen-front-page.has-header-image .custom-header-media,
-.twentyseventeen-front-page.has-header-video .custom-header-media,
+.aseel-front-page.has-header-image .custom-header-media,
+.aseel-front-page.has-header-video .custom-header-media,
 .home.blog.has-header-image .custom-header-media,
 .home.blog.has-header-video .custom-header-media {
   height: 25vh !important; }
@@ -54,4 +54,3 @@ footer#colophon {
 .post-excerpt.fade-in {
   opacity: 1;
   transform: translateY(0); }
-
